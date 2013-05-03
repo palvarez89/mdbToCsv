@@ -4,4 +4,4 @@ mdbToCsv
 How to use
 --------------
 
-    java -jar **mdbFile** **outputFolder**
+    java -jar <mdbFile> <outputFolder>
