@@ -25,7 +25,7 @@ public class Conversor {
 		Database database = null;
 
 		try {
-			System.out.print("Abriendo bd\n");
+			// System.out.print("Abriendo bd\n");
 			database = Database.open(databaseFile, true);
 			db = database;
 
@@ -54,8 +54,11 @@ public class Conversor {
 	public static void main(String[] args) {
 
 		Conversor converter = new Conversor();
-		if (!converter.simpleOpen(new File(args[0])))
+		if (!converter.simpleOpen(new File(args[0]))) {
+			System.out.print("ERROR opening database file (mdb)\n");
 			return;
+		}
+		System.out.print("Database opened\n");
 
 		File file = new File(args[0]);
 		String nombre = file.getName();
@@ -63,17 +66,17 @@ public class Conversor {
 		List<String> tablas = converter.getTables();
 
 		for (String table : tablas) {
+			System.out.print("Extracting table: " + table+"\n");
 			converter.dataCopy(table, args[1], nombreSinExt);
 		}
 
 		converter.simpleClose();
+		System.out.print("DONE\n");
 
 	}
 
 	public List<String> getTables() {
 		List<String> tablas = new ArrayList<String>();
-
-		StringBuilder output = new StringBuilder();
 
 		try {
 			for (String table : db.getTableNames()) {
@@ -85,8 +88,6 @@ public class Conversor {
 			// TODO Auto-generated catch block
 			System.err.println("Error: " + e.getMessage());
 		}
-
-		System.out.print(output.toString());
 
 		return tablas;
 
@@ -131,7 +132,7 @@ public class Conversor {
 				output.append("\n");
 
 				out.write(output.toString());
-				System.out.println(output.toString());
+				// System.out.println(output.toString());
 			}
 		} catch (IOException e) {
 			System.err.println("Error: " + e.getMessage());
@@ -241,7 +242,7 @@ public class Conversor {
 					sb.append("\n");
 				}
 				out.write(sb.toString());
-				System.out.println(sb.toString());
+				// System.out.println(sb.toString());
 			}
 		} catch (IOException e) {
 			System.err.println("Error: " + e.getMessage());
